@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Application</title>
+    
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+ 
+    width: 55%;
+    height: 80%;
+    max-width: 70%;
+    padding: 20px 20px 20px 20px;
+    background-color: rgb(131, 102, 124);
+    border-radius: 2%;
+    margin-left: 20%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size:  20px;
+    color: white;
+    }
+  input[type="text"], input[type="email"], input[type="password"] {
+  width: 55%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  }
+input[type="submit"] {
+  background-color: #3da3e7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.action-buttons button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #d9534f;
+    color: #fff;
+} 
+    </style>
+
+
+</head>
+<body>
+    <div class="container">
+        <h2>CRUD Application</h2>
+        
+        <!-- Form -->
+        <form id="crudForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"><br>
+            <input type="submit" value="Submit">
+        </form>
+        
+        <!-- Table -->
+        <table id="crudTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr></tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // script.js
+
+document.getElementById('crudForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    
+    addRow(name, email, password);
+
+    document.getElementById('crudForm').reset();
+});
+
+function addRow(name, email, password) {
+    let table = document.getElementById('crudTable').getElementsByTagName('tbody')[0];
+    let newRow = table.insertRow();
+
+    let nameCell = newRow.insertCell(0);
+    let emailCell = newRow.insertCell(1);
+    let passwordCell = newRow.insertCell(2);
+    let actionCell = newRow.insertCell(3);
+
+    nameCell.innerText = name;
+    emailCell.innerText = email;
+    passwordCell.innerText = password;
+
+    actionCell.innerHTML = `
+        <div class="action-buttons">
+            <button class="edit-button" onclick="editRow(this)">Edit</button>
+            <button class="delete-button" onclick="deleteRow(this)">Delete</button>
+        </div>
+    `;
+}
+
+function editRow(button) {
+    let row = button.parentNode.parentNode.parentNode;
+    let nameCell = row.cells[0];
+    let emailCell = row.cells[1];
+    let passwordCell = row.cells[2];
+
+    let newName = prompt("Edit Name:", nameCell.innerText);
+    let newEmail = prompt("Edit Email:", emailCell.innerText);
+    let newPassword = prompt("Edit Password:", passwordCell.innerText)
+
+    if (newName !== null && newEmail !== null && newPassword !==null) {
+        nameCell.innerText = newName;
+        emailCell.innerText = newEmail;
+        passwordCell.innerText = newPassword;
+    }
+}
+
+function deleteRow(button) {
+    let row = button.parentNode.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+    </script>
+</body>
+</html>
